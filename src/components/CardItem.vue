@@ -57,7 +57,7 @@
           variant="tonal"
           class="sort-btn"
           color="blue"
-          @click="sortList" />
+          @click="sortList('up')" />
       </template>
     </v-tooltip>
 
@@ -104,15 +104,20 @@
 <script setup>
   import { ref, inject, computed } from 'vue';
   import CardForm from './CardForm.vue';
+  import { watch } from 'vue';
+
 
   const firstList = inject('firstList');
   const secondList = inject('secondList');
   const lastList = inject('lastList');
+  // добавлена инъекция выбранного списка товаров
+  const selected = inject("selected");
 
   const props = defineProps({
     card: {},
     options: {},
   });
+  
 
   const borderColor = computed(() => {
     return props.options.id === 1 ? 'blue' : props.options.id === 2 ? 'yellow' : 'pink';
@@ -163,10 +168,27 @@
     }
   }
 
-  function sortList() {
+  function sortList(type) {
     getLocalCards();
-    cards = cards.value.sort((a, b) => b.rating.rate - a.rating.rate);
+    // Добавлена логика для сортировки по рейтингу
+    if(type==='down'){
+    cards = cards.value.sort((a, b) => b.rating.rate - a.rating.rate);}
+    if(type==='up'){
+    cards = cards.value.sort((a, b) => a.rating.rate - b.rating.rate);}
+    if(type==='not'){
+      cards = cards}
   }
+  // добавлен watch для отслеживания выбранного варианта сортировки
+  watch(selected, (newSelected)=>{
+    if(newSelected ==='По возрастанию'){
+      sortList('up')
+    }
+    else if(newSelected ==='По убыванию'){
+      sortList('down')
+    }else{
+      sortList('not')
+    }
+  })
 </script>
 
 <style lang="scss" scoped>
