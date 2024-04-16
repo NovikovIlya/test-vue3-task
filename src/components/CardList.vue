@@ -5,7 +5,6 @@
       label="Панель для сортировки"
       :items="['По возрастанию', 'По убыванию', 'Без сортировки']"
       variant="solo"
-
     ></v-select>
     <section
       :style="`background: ${options.color}`"
@@ -35,9 +34,7 @@
         :key="index"
         :card="card"
         :options="props.options"
-        
         :selected="selected"
-
         @delete-card="deleteCard(card.id)"
         @dragstart="onDragStart($event, card)"
       />
@@ -54,11 +51,11 @@
 </template>
 
 <script setup>
-import { ref, inject,provide } from "vue";
+import { ref, inject, provide } from "vue";
 import CardItem from "./CardItem.vue";
 import CardForm from "./CardForm.vue";
 
-const selected = ref('Без сортировки')
+const selected = ref("Без сортировки");
 
 const firstList = inject("firstList");
 const secondList = inject("secondList");
@@ -148,7 +145,7 @@ function onDrop(event, optionsId) {
   }
 }
 // Добавлен провайдер для selected
-provide('selected', selected);
+provide("selected", selected);
 </script>
 
 <style lang="scss" scoped>
